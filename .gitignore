@@ -1,7 +1,12 @@
-.Rproj.user
 .Rhistory
 .RData
 .Rproj.user/
-.Rproj.user
 *.Rproj
 .Rcheck/
+.RDS
+*.rds
+*.Rout
+*.o
+*.so
+*.dll
+.DS_Store
