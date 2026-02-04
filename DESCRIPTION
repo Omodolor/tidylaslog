@@ -1,18 +1,36 @@
 Package: tidylaslog
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
+Type: Package
+Title: Tidy Import, Indexing, and Export of LAS Well Log Data
+Version: 0.1.0
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+    person(given = c("Hope", "E."),
+           family = "Omodolor",
+           email = "hopeomodolor@gmail.com",
+           role = c("aut", "cre"),
+           comment = c(ORCID = "0009-0005-7842-406X"))
+Description: 
+    Provides tools for reading, parsing, indexing, and exporting LAS (Log ASCII
+    Standard) well log files into tidy, analysis-ready tabular formats. The
+    package separates LAS header information and log data into structured
+    components, builds a searchable index across collections of LAS files,
+    and enables reproducible subsetting of wells based on metadata or curve
+    availability. Output tables can be written to CSV or Parquet formats to
+    support scalable statistical, machine learning, and geoscientific
+    workflows.
 License: MIT + file LICENSE
 Encoding: UTF-8
+LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
-Suggests: 
-    testthat (>= 3.0.0)
-Config/testthat/edition: 3
-Imports: 
+Depends:
+    R (>= 4.1.0)
+Imports:
     dplyr,
-    readr,
     tibble,
     tidyr
+Suggests:
+    arrow,
+    jsonlite,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+URL: https://github.com/Omodolor/tidylaslog

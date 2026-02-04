@@ -115,7 +115,8 @@ index_laslogs <- function(dir) {
   curves_index <- dplyr::bind_rows(curves_list)
 
   files_index <- wells_index |>
-    dplyr::select(.data$api, .data$file_path, .data$source_file)
+    dplyr::select("api", "file_path", "source_file")
+
 
   list(
     wells_index = wells_index,

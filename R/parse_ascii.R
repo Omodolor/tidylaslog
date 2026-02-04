@@ -39,13 +39,28 @@ parse_ascii_block <- function(lines, null_value = NA_real_, output = c("long","w
 
   dat <- tibble::as_tibble(dat)
 
-  if (output == "wide") return(dat)
+  if (output == "wide") {
+    depth_col <- if ("DEPT" %in% names(dat)) "DEPT" else if ("DEPTH" %in% names(dat)) "DEPTH" else NULL
+    if (is.null(depth_col)) stop("No DEPT/DEPTH column found in ~A header.")
+
+    dat <- dat |>
+      dplyr::rename(depth = dplyr::all_of(depth_col)) |>
+      dplyr::relocate("depth")
+
+    return(dat)
+  }
+
+
 
   depth_col <- if ("DEPT" %in% names(dat)) "DEPT" else if ("DEPTH" %in% names(dat)) "DEPTH" else NULL
   if (is.null(depth_col)) stop("No DEPT/DEPTH column found in ~A header.")
 
   dat |>
     dplyr::rename(depth = dplyr::all_of(depth_col)) |>
-    tidyr::pivot_longer(cols = -depth, names_to = "mnemonic", values_to = "value")
+    tidyr::pivot_longer(
+      cols = -dplyr::all_of("depth"),
+      names_to = "mnemonic",
+      values_to = "value"
+    )
 }
 

@@ -219,7 +219,8 @@ write_manifest <- function(out_dir, prefix, dir, filters, n_wells) {
     jsonlite::toJSON(manifest, pretty = TRUE, auto_unbox = TRUE)
   } else {
     # fallback plain text if jsonlite isn't available
-    paste(capture.output(str(manifest)), collapse = "\n")
+    paste(utils::capture.output(utils::str(manifest)), collapse = "\n")
+
   }
 
   writeLines(json, path)
