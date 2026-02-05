@@ -1,7 +1,18 @@
 #' Read a LAS well log file (Log ASCII Standard) into a structured object
 #'
+#' tidylaslog supports two equivalent representations of LAS log data:
+#'
+#' - **Wide format**: one row per depth step per well, with each curve stored as a separate column.
+#' - **Long format**: one row per measurement, with curve names stored in a `mnemonic` column and values in a `value` column.
+#'
+#' Both formats contain the same information but are optimized for different workflows.
+#'
 #' @param file Path to a .las file
-#' @param output Output format for LOG: "long" (tidy) or "wide"
+#' @param output Output format:
+#' \describe{
+#'   \item{"wide"}{One row per depth per well, curves as columns (ML- and spreadsheet-ready).}
+#'   \item{"long"}{One row per curve measurement with columns depth, mnemonic, and value (tidy format).}
+#' }
 #' @return An S3 object of class "laslog" with VERSION/WELL/CURVE/PARAMETER/OTHER/LOG
 #' @export
 read_laslog <- function(file, output = c("long","wide")) {

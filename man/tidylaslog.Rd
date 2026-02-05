@@ -2,7 +2,7 @@
 % Please edit documentation in R/tidylaslog.R
 \name{tidylaslog}
 \alias{tidylaslog}
-\title{Universal entry point: read or export LAS logs from a file or folder}
+\title{Universal entry point for reading, indexing, and exporting LAS well logs}
 \usage{
 tidylaslog(
   x,
@@ -21,44 +21,74 @@ tidylaslog(
 )
 }
 \arguments{
-\item{x}{Path to a .las file OR a folder containing .las files}
+\item{x}{Path to a \code{.las} file OR a directory containing \code{.las} files.}
 
-\item{county}{Optional county filter (folder mode)}
+\item{county}{Optional county filter (directory mode only).}
 
-\item{curves_any}{Keep wells that have at least one of these curves (folder mode)}
+\item{curves_any}{Keep wells that contain \emph{at least one} of these curves
+(directory mode).}
 
-\item{curves_all}{Keep wells that have all of these curves (folder mode)}
+\item{curves_all}{Keep wells that contain \emph{all} of these curves
+(directory mode).}
 
-\item{curves}{Curves to actually export/keep (defaults to curves_all, else curves_any, else NULL=all)}
+\item{curves}{Curves to actually keep/export. Defaults to \code{curves_all},
+then \code{curves_any}, otherwise all curves.}
 
-\item{output}{"wide" (ML-ready) or "long" (tidy)}
+\item{output}{Output format:
+\describe{
+\item{"wide"}{One row per depth per well, curves as columns
+(ML- and spreadsheet-ready).}
+\item{"long"}{One row per curve measurement with columns
+\code{depth}, \code{mnemonic}, and \code{value} (tidy format).}
+}}
 
-\item{out_dir}{If NULL: returns data only. If provided: writes outputs to this directory.
-If relative (e.g. "exports"), it is created inside \code{x} when \code{x} is a folder.}
+\item{out_dir}{If \code{NULL}, data are returned to R only.
+If provided, outputs are written to this directory.
+If relative (e.g. \code{"exports"}), it is created inside \code{x} when \code{x} is a directory.}
 
-\item{prefix}{Optional file prefix for exported files}
+\item{prefix}{Optional filename prefix for exported files.}
 
-\item{formats}{Output formats: "csv", "parquet", or c("csv","parquet")}
+\item{formats}{Output formats to write. One or both of \code{"csv"} and \code{"parquet"}.}
 
-\item{write_index}{Write index tables in addition to data export? (folder mode)}
+\item{write_index}{Write index tables (wells, curves, files) when exporting
+directories?}
 
-\item{write_meta}{Write metadata tables for single-file export?}
+\item{write_meta}{Write metadata tables (\code{WELL}, \code{CURVE}, etc.) for
+single-file exports?}
 
-\item{meta_sections}{Which metadata sections to export (single-file export)}
+\item{meta_sections}{Which metadata sections to export
+(\code{"VERSION"}, \code{"WELL"}, \code{"CURVE"}, \code{"PARAMETER"}, \code{"OTHER"}).}
 
-\item{manifest}{Write a manifest file describing the run?}
+\item{manifest}{Write a JSON manifest describing the export?}
 }
 \value{
-If \code{out_dir} is NULL:
-\itemize{
-\item file mode: returns the laslog object from read_laslog()
-\item folder mode: returns a list(index, apis, data)
+If \code{out_dir} is \code{NULL}:
+\describe{
+\item{Single file}{An S3 object of class \code{"laslog"} containing
+\code{VERSION}, \code{WELL}, \code{CURVE}, \code{PARAMETER}, \code{OTHER}, and \code{LOG}.}
+\item{Directory}{A list with \code{index}, \code{apis}, and combined \code{data}.}
+}
+
 If \code{out_dir} is provided:
-\item file mode: returns list(data, object, paths, meta_paths, manifest)
-\item folder mode: returns the full export result list (like batch_export_laslogs)
+\describe{
+\item{Single file}{A list containing exported data paths, metadata paths,
+and an optional manifest.}
+\item{Directory}{The full batch export result (see \code{batch_export_laslogs()}).}
 }
 }
 \description{
-Works for a single LAS file OR a folder of LAS files. If \code{out_dir} is provided,
-it exports CSV/Parquet and (optionally) writes metadata + a manifest.
+\code{tidylaslog()} works with either a \strong{single LAS file} or a \strong{directory of LAS files}.
+It can return data directly to R or export analysis-ready tables to disk.
+}
+\details{
+The function supports two equivalent representations of LAS log data:
+\itemize{
+\item \strong{Wide format}: one row per depth step per well, with each curve stored as a
+separate column.
+\item \strong{Long format}: one row per measurement, with curve names stored in a
+\code{mnemonic} column and values in a \code{value} column.
+}
+
+Both formats contain the same information but are optimized for different workflows
+(machine learning vs tidy analysis).
 }

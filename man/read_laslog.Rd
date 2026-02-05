@@ -9,11 +9,23 @@ read_laslog(file, output = c("long", "wide"))
 \arguments{
 \item{file}{Path to a .las file}
 
-\item{output}{Output format for LOG: "long" (tidy) or "wide"}
+\item{output}{Output format:
+\describe{
+\item{"wide"}{One row per depth per well, curves as columns (ML- and spreadsheet-ready).}
+\item{"long"}{One row per curve measurement with columns depth, mnemonic, and value (tidy format).}
+}}
 }
 \value{
 An S3 object of class "laslog" with VERSION/WELL/CURVE/PARAMETER/OTHER/LOG
 }
 \description{
-Read a LAS well log file (Log ASCII Standard) into a structured object
+tidylaslog supports two equivalent representations of LAS log data:
+}
+\details{
+\itemize{
+\item \strong{Wide format}: one row per depth step per well, with each curve stored as a separate column.
+\item \strong{Long format}: one row per measurement, with curve names stored in a \code{mnemonic} column and values in a \code{value} column.
+}
+
+Both formats contain the same information but are optimized for different workflows.
 }
