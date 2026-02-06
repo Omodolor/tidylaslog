@@ -85,7 +85,7 @@ write_laslogs <- function(data, out_dir, prefix = "laslogs", csv = TRUE, parquet
 #' @param csv Write CSV?
 #' @param parquet Write Parquet?
 #' @param write_index If TRUE, also export wells_index/curves_index/files_index tables
-#' @param index_prefix Optional prefix for index files (defaults to "<prefix>__index")
+#' @param index_prefix Optional prefix for index files (defaults to `prefix__index`)
 #' @return Invisibly returns a list with index, apis, data, output paths, and manifest
 #' @export
 

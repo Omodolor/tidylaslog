@@ -42,7 +42,7 @@ batch_export_laslogs(
 
 \item{write_index}{If TRUE, also export wells_index/curves_index/files_index tables}
 
-\item{index_prefix}{Optional prefix for index files (defaults to "\if{html}{\out{<prefix>}}__index")}
+\item{index_prefix}{Optional prefix for index files (defaults to \code{prefix__index})}
 }
 \value{
 Invisibly returns a list with index, apis, data, output paths, and manifest

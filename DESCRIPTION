@@ -1,7 +1,7 @@
 Package: tidylaslog
 Type: Package
 Title: Tidy Import, Indexing, and Export of LAS Well Log Data
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: 
     person(given = c("Hope", "E."),
            family = "Omodolor",
@@ -15,8 +15,7 @@ Description:
     components, builds a searchable index across collections of LAS files,
     and enables reproducible subsetting of wells based on metadata or curve
     availability. Output tables can be written to CSV or Parquet formats to
-    support scalable statistical, machine learning, and geoscientific
-    workflows.
+    support large-scale statistical, machine learning, and geoscience workflows.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: false
