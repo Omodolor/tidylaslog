@@ -15,7 +15,10 @@ Description:
     components, builds a searchable index across collections of LAS files,
     and enables reproducible subsetting of wells based on metadata or curve
     availability. Output tables can be written to CSV or Parquet formats to
-    support large-scale statistical, machine learning, and geoscience workflows.
+    support large-scale statistical, machine learning, and earth science
+    workflows. The tidy data structure follows Wickham (2014) <doi:10.18637/jss.v059.i10>.
+    The LAS file structure follows the Canadian Well Logging Society LAS standard
+    <https://www.cwls.org/wp-content/uploads/2017/02/Las2_Update_Jan2017.pdf>.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: false

@@ -69,6 +69,53 @@
 #' }
 #'
 #' @export
+#' @examples
+#' # ---- Single file mode (return to R) ----
+#' las_text <- c(
+#'   " ~Version Information",
+#'   " VERS. 2.0:",
+#'   " WRAP. NO:",
+#'   " ~Well Information",
+#'   " STRT.M 1000:",
+#'   " STOP.M 1002:",
+#'   " STEP.M 1:",
+#'   " NULL. -999.25:",
+#'   " API . 1111111111:",
+#'   " CNTY. TEST:",
+#'   " ~Curve Information",
+#'   " DEPT.M:",
+#'   " GR.API:",
+#'   " ~ASCII Log Data",
+#'   " 1000 80",
+#'   " 1001 82",
+#'   " 1002 79"
+#' )
+#' f <- tempfile(fileext = ".las")
+#' writeLines(las_text, f)
+#' obj <- tidylaslog(f, output = "long")
+#' head(obj$LOG)
+#'
+#' # ---- Directory mode (return to R) ----
+#' td <- tempdir()
+#' f1 <- file.path(td, "a.las")
+#' f2 <- file.path(td, "b.las")
+#' writeLines(las_text, f1)
+#' writeLines(sub("1111111111", "2222222222", las_text), f2)
+#' res <- tidylaslog(td, county = "TEST", curves_any = "GR", output = "wide")
+#' names(res)
+#'
+#' # ---- Export mode (CSV only, no arrow needed) ----
+#' out_dir <- file.path(td, "exports_demo")
+#' ex <- tidylaslog(td,
+#'   county = "TEST",
+#'   curves_any = "GR",
+#'   output = "wide",
+#'   out_dir = out_dir,
+#'   formats = "csv",
+#'   write_index = TRUE,
+#'   manifest = FALSE
+#' )
+#' names(ex)
 tidylaslog <- function(x,
                        county = NULL,
                        curves_any = NULL,

@@ -3,6 +3,29 @@
 #' @param file Path to a .las file
 #' @return S3 object of class "laslog_header" with VERSION/WELL/CURVE/PARAMETER/OTHER plus provenance
 #' @export
+#' @examples
+#' las_text <- c(
+#'   " ~Version Information",
+#'   " VERS. 2.0: CWLS LOG ASCII STANDARD",
+#'   " WRAP. NO:",
+#'   " ~Well Information",
+#'   " STRT.M 1000: Start depth",
+#'   " STOP.M 1001: Stop depth",
+#'   " STEP.M 1: Step",
+#'   " NULL. -999.25: Null value",
+#'   " API . 1111111111: API number",
+#'   " CNTY. TEST: County",
+#'   " ~Curve Information",
+#'   " DEPT.M: Depth",
+#'   " GR.API: Gamma Ray",
+#'   " ~ASCII Log Data",
+#'   " 1000 80",
+#'   " 1001 82"
+#' )
+#' f <- tempfile(fileext = ".las")
+#' writeLines(las_text, f)
+#' h <- read_laslog_header(f)
+#' names(h)
 read_laslog_header <- function(file) {
   lines <- readLines(file, warn = FALSE)
   secs <- split_las_sections(lines)
@@ -30,11 +53,41 @@ read_laslog_header <- function(file) {
   class(out) <- "laslog_header"
   out
 }
+
 #' Build a FAIR index for a folder of LAS files
 #'
 #' @param dir Folder containing .las files
 #' @return A list with wells_index, curves_index, files_index
 #' @export
+#' @examples
+#' td <- tempdir()
+#' f1 <- file.path(td, "a.las")
+#' f2 <- file.path(td, "b.las")
+#'
+#' las_text <- c(
+#'   " ~Version Information",
+#'   " VERS. 2.0:",
+#'   " WRAP. NO:",
+#'   " ~Well Information",
+#'   " STRT.M 1000:",
+#'   " STOP.M 1001:",
+#'   " STEP.M 1:",
+#'   " NULL. -999.25:",
+#'   " API . 1111111111:",
+#'   " CNTY. TEST:",
+#'   " ~Curve Information",
+#'   " DEPT.M:",
+#'   " GR.API:",
+#'   " ~ASCII Log Data",
+#'   " 1000 80",
+#'   " 1001 82"
+#' )
+#'
+#' writeLines(las_text, f1)
+#' writeLines(sub("1111111111", "2222222222", las_text), f2)
+#'
+#' idx <- index_laslogs(td)
+#' names(idx)
 index_laslogs <- function(dir) {
   dir <- path.expand(dir)
 
@@ -117,7 +170,6 @@ index_laslogs <- function(dir) {
   files_index <- wells_index |>
     dplyr::select("api", "file_path", "source_file")
 
-
   list(
     wells_index = wells_index,
     curves_index = curves_index,
@@ -133,6 +185,33 @@ index_laslogs <- function(dir) {
 #' @param curves_all Keep wells that have all of these curves (optional)
 #' @return Character vector of API values
 #' @export
+#' @examples
+#' td <- tempdir()
+#' f <- file.path(td, "a.las")
+#'
+#' las_text <- c(
+#'   " ~Version Information",
+#'   " VERS. 2.0:",
+#'   " WRAP. NO:",
+#'   " ~Well Information",
+#'   " STRT.M 1000:",
+#'   " STOP.M 1001:",
+#'   " STEP.M 1:",
+#'   " NULL. -999.25:",
+#'   " API . 1111111111:",
+#'   " CNTY. TEST:",
+#'   " ~Curve Information",
+#'   " DEPT.M:",
+#'   " GR.API:",
+#'   " ~ASCII Log Data",
+#'   " 1000 80",
+#'   " 1001 82"
+#' )
+#'
+#' writeLines(las_text, f)
+#' idx <- index_laslogs(td)
+#' apis <- select_laslogs(idx, county = "TEST", curves_any = "GR")
+#' apis
 select_laslogs <- function(index, county = NULL, curves_any = NULL, curves_all = NULL) {
   wells <- index$wells_index
   curves <- index$curves_index
@@ -145,7 +224,6 @@ select_laslogs <- function(index, county = NULL, curves_any = NULL, curves_all =
       dplyr::filter(!is.na(.data$county), .data$county != "") |>
       dplyr::filter(toupper(.data$county) %in% county_keep)
   }
-
 
   apis <- wells$api
 

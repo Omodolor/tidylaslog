@@ -23,3 +23,9 @@ Invisibly returns output paths
 \description{
 Write LAS logs to CSV and/or Parquet
 }
+\examples{
+out_dir <- tempdir()
+df <- data.frame(api = "1111111111", depth = c(1000, 1001), GR = c(80, 82))
+paths <- write_laslogs(df, out_dir = out_dir, prefix = "demo", csv = TRUE, parquet = FALSE)
+paths
+}

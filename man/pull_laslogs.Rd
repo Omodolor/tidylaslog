@@ -21,3 +21,31 @@ A tibble combining all selected wells
 \description{
 Pull log data for selected wells (optionally selected curves)
 }
+\examples{
+td <- tempdir()
+f <- file.path(td, "a.las")
+
+las_text <- c(
+  " ~Version Information",
+  " VERS. 2.0:",
+  " WRAP. NO:",
+  " ~Well Information",
+  " STRT.M 1000:",
+  " STOP.M 1001:",
+  " STEP.M 1:",
+  " NULL. -999.25:",
+  " API . 1111111111:",
+  " CNTY. TEST:",
+  " ~Curve Information",
+  " DEPT.M:",
+  " GR.API:",
+  " ~ASCII Log Data",
+  " 1000 80",
+  " 1001 82"
+)
+
+writeLines(las_text, f)
+idx <- index_laslogs(td)
+dat <- pull_laslogs(idx, apis = "1111111111", curves = "GR", output = "long")
+head(dat)
+}

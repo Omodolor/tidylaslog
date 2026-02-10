@@ -6,6 +6,33 @@
 #' @param output "long" (tidy) or "wide" (ML-ready)
 #' @return A tibble combining all selected wells
 #' @export
+#' @examples
+#' td <- tempdir()
+#' f <- file.path(td, "a.las")
+#'
+#' las_text <- c(
+#'   " ~Version Information",
+#'   " VERS. 2.0:",
+#'   " WRAP. NO:",
+#'   " ~Well Information",
+#'   " STRT.M 1000:",
+#'   " STOP.M 1001:",
+#'   " STEP.M 1:",
+#'   " NULL. -999.25:",
+#'   " API . 1111111111:",
+#'   " CNTY. TEST:",
+#'   " ~Curve Information",
+#'   " DEPT.M:",
+#'   " GR.API:",
+#'   " ~ASCII Log Data",
+#'   " 1000 80",
+#'   " 1001 82"
+#' )
+#'
+#' writeLines(las_text, f)
+#' idx <- index_laslogs(td)
+#' dat <- pull_laslogs(idx, apis = "1111111111", curves = "GR", output = "long")
+#' head(dat)
 pull_laslogs <- function(index, apis, curves = NULL, output = c("long", "wide")) {
   output <- match.arg(output)
 
@@ -49,6 +76,11 @@ pull_laslogs <- function(index, apis, curves = NULL, output = c("long", "wide"))
 #' @param parquet Write Parquet file? (requires arrow)
 #' @return Invisibly returns output paths
 #' @export
+#' @examples
+#' out_dir <- tempdir()
+#' df <- data.frame(api = "1111111111", depth = c(1000, 1001), GR = c(80, 82))
+#' paths <- write_laslogs(df, out_dir = out_dir, prefix = "demo", csv = TRUE, parquet = FALSE)
+#' paths
 write_laslogs <- function(data, out_dir, prefix = "laslogs", csv = TRUE, parquet = TRUE) {
   out_dir <- path.expand(out_dir)
   dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
@@ -88,7 +120,42 @@ write_laslogs <- function(data, out_dir, prefix = "laslogs", csv = TRUE, parquet
 #' @param index_prefix Optional prefix for index files (defaults to `prefix__index`)
 #' @return Invisibly returns a list with index, apis, data, output paths, and manifest
 #' @export
-
+#' @examples
+#' td <- tempdir()
+#' f <- file.path(td, "a.las")
+#'
+#' las_text <- c(
+#'   " ~Version Information",
+#'   " VERS. 2.0:",
+#'   " WRAP. NO:",
+#'   " ~Well Information",
+#'   " STRT.M 1000:",
+#'   " STOP.M 1001:",
+#'   " STEP.M 1:",
+#'   " NULL. -999.25:",
+#'   " API . 1111111111:",
+#'   " CNTY. TEST:",
+#'   " ~Curve Information",
+#'   " DEPT.M:",
+#'   " GR.API:",
+#'   " ~ASCII Log Data",
+#'   " 1000 80",
+#'   " 1001 82"
+#' )
+#'
+#' writeLines(las_text, f)
+#'
+#' res <- batch_export_laslogs(
+#'   dir = td,
+#'   out_dir = file.path(td, "exports"),
+#'   county = "TEST",
+#'   curves_any = "GR",
+#'   output = "wide",
+#'   csv = TRUE,
+#'   parquet = FALSE,
+#'   write_index = TRUE
+#' )
+#' names(res)
 batch_export_laslogs <- function(dir,
                                  out_dir,
                                  county = NULL,
@@ -110,7 +177,6 @@ batch_export_laslogs <- function(dir,
   # If out_dir is relative (e.g. "exports"), put it inside dir
   is_abs <- grepl("^/", out_dir) || grepl("^[A-Za-z]:[/\\\\]", out_dir)
   out_dir <- if (is_abs) path.expand(out_dir) else file.path(dir, out_dir)
-
 
   idx <- index_laslogs(dir)
 
@@ -181,7 +247,6 @@ batch_export_laslogs <- function(dir,
     n_wells = length(apis)
   )
 
-
   invisible(list(
     index = idx,
     apis = apis,
@@ -190,7 +255,6 @@ batch_export_laslogs <- function(dir,
     index_paths = index_paths,
     manifest = manifest_path
   ))
-
 }
 
 #' Write a small manifest describing an export run
@@ -220,10 +284,8 @@ write_manifest <- function(out_dir, prefix, dir, filters, n_wells) {
   } else {
     # fallback plain text if jsonlite isn't available
     paste(utils::capture.output(utils::str(manifest)), collapse = "\n")
-
   }
 
   writeLines(json, path)
   path
 }
-
