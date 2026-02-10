@@ -1,7 +1,7 @@
 Package: tidylaslog
 Type: Package
 Title: Tidy Import, Indexing, and Export of LAS Well Log Data
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: 
     person(given = c("Hope", "E."),
            family = "Omodolor",
