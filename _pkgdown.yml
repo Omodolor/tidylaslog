@@ -1,4 +1,4 @@
-url: https://omododor.github.io/spaAlign/
+url: https://omodolor.github.io/tidylaslog/
 
 template:
   bootstrap: 5
@@ -6,19 +6,31 @@ template:
     in_header: pkgdown/extra.css
 
 home:
-  title: "Stratigraphic Plug Alignment (SPA)"
-  description: Stratigraphic plug alignment tools for core datasets
+  title: "tidylaslog"
+  description: Tidy import, indexing, and export of LAS well log files
+
+# navbar logo
+logo: man/figures/tidylaslog_hex.gif
 
 navbar:
   structure:
-    left: [reference, articles]
+    left:  [home, reference, articles]
     right: [github]
   components:
     github:
       icon: fab fa-github
-      href: https://github.com/Omodolor/spaAlign
+      aria-label: "GitHub"
+      href: https://github.com/Omodolor/tidylaslog
 
 reference:
-  - title: "Functions"
+  - title: "Core workflow"
     contents:
-      - starts_with("spa")
+      - tidylaslog
+      - index_laslogs
+      - available_curves
+      - select_laslogs
+      - pull_laslogs
+      - batch_export_laslogs
+      - read_laslog
+      - read_laslog_header
+      - write_laslogs
