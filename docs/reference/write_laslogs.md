@@ -42,7 +42,7 @@ df <- data.frame(api = "1111111111", depth = c(1000, 1001), GR = c(80, 82))
 paths <- write_laslogs(df, out_dir = out_dir, prefix = "demo", csv = TRUE, parquet = FALSE)
 paths
 #> $csv
-#> [1] "/tmp/Rtmpgz0AFg/demo.csv"
+#> [1] "/tmp/Rtmp1yIX8P/demo.csv"
 #> 
 #> $parquet
 #> NULL
