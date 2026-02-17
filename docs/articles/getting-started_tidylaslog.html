@@ -78,7 +78,9 @@
 
     
     
-<p>Methods</p>
+<div class="section level2">
+<h2 id="methods">Methods<a class="anchor" aria-label="anchor" href="#methods"></a>
+</h2>
 <p>tidylaslog provides tools for reading, parsing, indexing, and
 exporting LAS (Log ASCII Standard) well log files into tidy,
 analysis-ready tabular formats. The workflow is designed for
@@ -95,7 +97,10 @@ curves. Wells can then be selected by metadata and curve availability
 batch_export_laslogs() can index, filter, pull, and export logs to CSV
 and/or Parquet in one call, with optional index tables and a manifest
 for provenance tracking.</p>
-<p>Justification</p>
+</div>
+<div class="section level2">
+<h2 id="justification">Justification<a class="anchor" aria-label="anchor" href="#justification"></a>
+</h2>
 <p>This approach is appropriate because large LAS collections are rarely
 analysis-ready in their raw state: wells vary in header completeness,
 curve availability, and naming conventions. A directory-level index
@@ -107,7 +112,10 @@ workflows: long format for tidy analysis/visualization and wide format
 for modeling and machine learning. Exporting to CSV/Parquet enables
 scalable downstream use in earth science, statistics, and ML pipelines
 while preserving tidy data principles (Wickham, 2014).</p>
-<p>Short “how it was done”</p>
+</div>
+<div class="section level2">
+<h2 id="short-how-it-was-done">Short “how it was done”<a class="anchor" aria-label="anchor" href="#short-how-it-was-done"></a>
+</h2>
 <p>Pointed tidylaslog to a directory containing .las files</p>
 <p>Built an index (index_laslogs()) to summarize wells, curves, and
 provenance</p>
@@ -119,7 +127,10 @@ or long format</p>
 via tidylaslog() / batch_export_laslogs())</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_chunk.html" class="external-link">opts_chunk</a></span><span class="op">$</span><span class="fu">set</span><span class="op">(</span>echo <span class="op">=</span> <span class="cn">TRUE</span>, message <span class="op">=</span> <span class="cn">FALSE</span>, warning <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p>Setup</p>
+</div>
+<div class="section level2">
+<h2 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
+</h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://omodolor.github.io/tidylaslog/">tidylaslog</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></code></pre></div>
@@ -342,6 +353,7 @@ GR/RHOB.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">res2</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "index"       "apis"        "data"        "paths"       "index_paths"</span></span>
 <span><span class="co">## [6] "manifest"</span></span></code></pre>
+</div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>

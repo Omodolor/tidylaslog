@@ -1,6 +1,6 @@
 # tidylaslog
 
-Methods
+## Methods
 
 tidylaslog provides tools for reading, parsing, indexing, and exporting
 LAS (Log ASCII Standard) well log files into tidy, analysis-ready
@@ -19,7 +19,7 @@ For end-to-end reproducibility, tidylaslog() and batch_export_laslogs()
 can index, filter, pull, and export logs to CSV and/or Parquet in one
 call, with optional index tables and a manifest for provenance tracking.
 
-Justification
+## Justification
 
 This approach is appropriate because large LAS collections are rarely
 analysis-ready in their raw state: wells vary in header completeness,
@@ -34,7 +34,7 @@ for modeling and machine learning. Exporting to CSV/Parquet enables
 scalable downstream use in earth science, statistics, and ML pipelines
 while preserving tidy data principles (Wickham, 2014).
 
-Short “how it was done”
+## Short “how it was done”
 
 Pointed tidylaslog to a directory containing .las files
 
@@ -55,7 +55,7 @@ via tidylaslog() / batch_export_laslogs())
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 ```
 
-Setup
+## Setup
 
 ``` r
 library(tidylaslog)
