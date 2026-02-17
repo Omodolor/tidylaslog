@@ -1,30 +1,58 @@
-/* Match logo blue */
-.navbar .navbar-brand {
-  color: #263494 !important;
+/* ---- Match spaAlign blue ---- */
+:root{
+  --spa-blue:#263494;
+}
+
+/* Navbar brand + links */
+.navbar .navbar-brand{
+  color: var(--spa-blue) !important;
   font-weight: 700;
 }
 .navbar .navbar-brand:hover,
-.navbar .navbar-brand:focus {
-  color: #263494 !important;
+.navbar .navbar-brand:focus{
+  color: var(--spa-blue) !important;
 }
-
-/* Optional: active nav items match too */
 .navbar .nav-link.active,
-.navbar .nav-link:hover {
-  color: #263494 !important;
+.navbar .nav-link:hover{
+  color: var(--spa-blue) !important;
 }
 
-/* Home page title color + smaller size */
-.template-home main h1 {
-  color: #263494 !important;
+/* Home page title */
+.template-home main h1{
+  color: var(--spa-blue) !important;
   font-size: 1.45rem !important;
   line-height: 1.15 !important;
   margin: 0 0 0.4rem 0 !important;
 }
 
-/* Home page: push the hex logo DOWN */
+/* Push navbar content away from edges */
+.navbar > .container,
+.navbar > .container-fluid,
+.navbar > .container-sm,
+.navbar > .container-md,
+.navbar > .container-lg,
+.navbar > .container-xl,
+.navbar > .container-xxl{
+  max-width: 100% !important;
+  padding-left: 28px !important;
+  padding-right: 28px !important;
+}
+.navbar .navbar-brand{
+  margin-left: 0 !important;
+}
+
+/* ---- Move HOME hex logo DOWN (below the header rule) ----
+   Use multiple selectors so it works across pkgdown versions/themes.
+*/
 .template-home .page-header img.logo,
-.template-home .page-header .logo {
-  margin-top: 32px !important;  /* increase if needed: 40, 60 */
+.template-home .page-header .logo,
+.template-home header.page-header img,
+.template-home header.page-header img.logo{
+  margin-top: 40px !important; /* try 24 / 40 / 60 */
   display: block;
+}
+
+/* If your theme positions it with flex, this helps */
+.template-home .page-header{
+  align-items: flex-start;
 }
