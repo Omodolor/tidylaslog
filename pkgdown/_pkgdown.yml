@@ -1,9 +1,10 @@
-url: https://omodolor.github.io/tidylaslog/
+ url: https://omodolor.github.io/tidylaslog/
 
 template:
   bootstrap: 5
+  includes:
+    in_header: pkgdown/extra.css
 
-# navbar logo
 logo: man/figures/tidylaslog_hex.gif
 
 navbar:

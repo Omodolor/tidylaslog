@@ -8,7 +8,7 @@
   color: #263494 !important;
 }
 
-/* Optional: make active nav items match too */
+/* Optional: active nav items match too */
 .navbar .nav-link.active,
 .navbar .nav-link:hover {
   color: #263494 !important;
@@ -22,20 +22,9 @@
   margin: 0 0 0.4rem 0 !important;
 }
 
-/* Push navbar content a bit away from the left edge */
-.navbar > .container,
-.navbar > .container-fluid,
-.navbar > .container-sm,
-.navbar > .container-md,
-.navbar > .container-lg,
-.navbar > .container-xl,
-.navbar > .container-xxl {
-  max-width: 100% !important;
-  padding-left: 28px !important;
-  padding-right: 28px !important;
-}
-
-/* Ensure brand doesn't have extra left spacing */
-.navbar .navbar-brand {
-  margin-left: 0 !important;
+/* Home page: push the hex logo DOWN */
+.template-home .page-header img.logo,
+.template-home .page-header .logo {
+  margin-top: 32px !important;  /* increase if needed: 40, 60 */
+  display: block;
 }
