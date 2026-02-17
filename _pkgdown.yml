@@ -1,0 +1,24 @@
+url: https://omododor.github.io/spaAlign/
+
+template:
+  bootstrap: 5
+  includes:
+    in_header: pkgdown/extra.css
+
+home:
+  title: "Stratigraphic Plug Alignment (SPA)"
+  description: Stratigraphic plug alignment tools for core datasets
+
+navbar:
+  structure:
+    left: [reference, articles]
+    right: [github]
+  components:
+    github:
+      icon: fab fa-github
+      href: https://github.com/Omodolor/spaAlign
+
+reference:
+  - title: "Functions"
+    contents:
+      - starts_with("spa")
