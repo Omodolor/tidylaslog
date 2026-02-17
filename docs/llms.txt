@@ -1,6 +1,6 @@
 # tidylaslog
 
-![tidylaslog](reference/figures/tidylaslog_hex.gif)
+![](reference/figures/tidylaslog_hex.gif)
 
 ![](assets/tidylaslog_hex.gif)
 

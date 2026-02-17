@@ -1,4 +1,13 @@
-/* Home page: push the hex logo down so it sits below the header rule/line */
+/* Home page: push the hex logo DOWN */
+.template-home .page-header img.logo,
 .template-home .page-header .logo {
-  margin-top: 24px !important;  /* try 16px, 24px, 32px */
+  margin-top: 50px !important;  /* try 50px, 70px, 90px */
+  display: block;
+}
+
+/* Home page: push the hex logo DOWN */
+.template-home .page-header img.logo,
+.template-home .page-header .logo {
+  margin-top: 50px !important;  /* try 50px, 70px, 90px */
+  display: block;
 }
