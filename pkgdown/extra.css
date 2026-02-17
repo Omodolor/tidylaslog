@@ -1,7 +1,4 @@
-/* Move the package logo down on the home page (like spaAlign) */
-.template-home .page-header .logo,
-.template-home .page-header img.logo,
-.template-home .page-header img[alt="logo"],
-.template-home .page-header img[alt="tidylaslog"] {
-  margin-top: 1.5rem;   /* increase/decrease until it matches what you want */
+/* Home page: push the hex logo down so it sits below the header rule/line */
+.template-home .page-header .logo {
+  margin-top: 24px !important;  /* try 16px, 24px, 32px */
 }
