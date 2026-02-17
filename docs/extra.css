@@ -7,21 +7,24 @@
 .navbar .navbar-brand:focus {
   color: #263494 !important;
 }
+
+/* Optional: make active nav items match too */
 .navbar .nav-link.active,
 .navbar .nav-link:hover {
   color: #263494 !important;
 }
 
-/* Home page title color */
+/* Home page title color + smaller size */
 .template-home main h1 {
   color: #263494 !important;
+  font-size: 1.45rem !important;
+  line-height: 1.15 !important;
+  margin: 0 0 0.4rem 0 !important;
 }
 
-/* Push home logo down */
-.template-home .page-header img,
+/* Home page: push the hex logo DOWN */
 .template-home .page-header img.logo,
-.template-home .page-header .logo img,
 .template-home .page-header .logo {
-  margin-top: 35px !important;  /* try 50px if you want lower */
+  margin-top: 70px !important;  /* adjust 50/70/90 */
   display: block;
 }
