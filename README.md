@@ -1,4 +1,4 @@
-<img src="man/figures/tidylaslog_hex.gif" align="right" height="140" style="margin-left: 18px; margin-top: -6px;" />
+<img src="man/figures/tidylaslog_hex.gif" align="right" height="220" style="margin-top: 25px;" />
 
 # tidylaslog
 ![](assets/spaAlign_hex.gif)

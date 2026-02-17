@@ -1,0 +1,4 @@
+/* Move homepage hex logo down a bit */
+.template-home img[alt="tidylaslog"] {
+  margin-top: 25px;
+}
