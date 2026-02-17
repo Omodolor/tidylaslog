@@ -28,3 +28,9 @@
   margin-top: 70px !important;  /* adjust 50/70/90 */
   display: block;
 }
+
+/* Move the HOME page logo down a bit */
+.template-home .page-header img.logo,
+.template-home .page-header .logo {
+  margin-top: 20px !important;   /* try 10, 20, 30 */
+}
