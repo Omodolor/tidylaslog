@@ -33,7 +33,10 @@ Imports:
 Suggests:
     arrow,
     jsonlite,
+    knitr, 
+    rmarkdown,
     testthat (>= 3.0.0)
+VignetteBuilder: knitr
 Config/testthat/edition: 3
 URL: https://github.com/Omodolor/tidylaslog
 BugReports: https://github.com/Omodolor/tidylaslog/issues

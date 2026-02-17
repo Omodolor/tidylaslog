@@ -1,0 +1,190 @@
+---
+title: "tidylaslog"
+author: ""
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+vignette: >
+  %\VignetteIndexEntry{tidylaslog}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+Methods
+
+tidylaslog provides tools for reading, parsing, indexing, and exporting LAS (Log ASCII Standard) well log files into tidy, analysis-ready tabular formats. The workflow is designed for folder-based LAS collections where each file contains both header metadata (e.g., API and county) and depth-indexed log curves (e.g., GR, RHOB, NPHI).
+
+A FAIR-style index is first built across the LAS directory (index_laslogs()), enabling fast discovery of available wells and curves. Wells can then be selected by metadata and curve availability (select_laslogs()), and log data are pulled for only the selected wells (pull_laslogs()), returning either wide (machine-learning ready) or long (tidy) formats.
+
+For end-to-end reproducibility, tidylaslog() and batch_export_laslogs() can index, filter, pull, and export logs to CSV and/or Parquet in one call, with optional index tables and a manifest for provenance tracking.
+
+Justification
+
+This approach is appropriate because large LAS collections are rarely analysis-ready in their raw state: wells vary in header completeness, curve availability, and naming conventions. A directory-level index makes the collection searchable and reproducible, supports transparent filtering decisions (e.g., keep only wells in a county or wells containing GR), and avoids repeatedly re-reading the full dataset.
+
+Returning both long and wide representations supports complementary workflows: long format for tidy analysis/visualization and wide format for modeling and machine learning. Exporting to CSV/Parquet enables scalable downstream use in earth science, statistics, and ML pipelines while preserving tidy data principles (Wickham, 2014).
+
+Short “how it was done”
+
+Pointed tidylaslog to a directory containing .las files
+
+Built an index (index_laslogs()) to summarize wells, curves, and provenance
+
+Inspected available curves (available_curves())
+
+Selected wells using county and curve criteria (select_laslogs())
+
+Pulled stacked log data for selected APIs (pull_laslogs()), in wide or long format
+
+Exported tables to CSV and/or Parquet (write_laslogs() or export mode via tidylaslog() / batch_export_laslogs())
+
+```{r}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+
+```
+Setup
+
+```{r}
+library(tidylaslog)
+library(dplyr)
+
+```
+Example 1: Directory workflow (index → select → pull)
+1) Directory path (real data)
+```{r}
+dir <- "~/CSE_MSE_RXF131/staging/sdle/geospatial/Columbiana_wells/Las_new"
+# stopifnot(dir.exists(dir))  # uncomment when running on your machine
+dir
+
+```
+2) Build index (FAIR-style)
+```{r}
+idx <- index_laslogs(dir)
+names(idx)
+
+# Preview index tables
+dplyr::glimpse(idx$wells_index)
+dplyr::glimpse(idx$curves_index)
+dplyr::glimpse(idx$files_index)
+
+```
+3) What curves exist in this collection?
+```{r}
+available_curves(idx, top_n = 20)
+
+```
+4) Select wells by metadata and curve availability
+
+Example: keep wells in Columbiana County that have at least one of GR/RHOB.
+```{r}
+apis <- select_laslogs(
+  index = idx,
+  county = c("COLUMBIANA"),
+  curves_any = c("GR", "RHOB")
+)
+
+length(apis)
+head(apis)
+
+```
+5) Pull logs for selected wells (wide or long)
+
+Wide format (ML/spreadsheet-ready):
+```{r}
+logs_wide <- pull_laslogs(
+  index  = idx,
+  apis   = apis,
+  curves = c("GR", "RHOB"),
+  output = "wide"
+)
+dplyr::glimpse(logs_wide)
+
+```
+Long format (tidy):
+```{r}
+logs_long <- pull_laslogs(
+  index  = idx,
+  apis   = apis,
+  curves = c("GR", "RHOB"),
+  output = "long"
+)
+dplyr::glimpse(logs_long)
+
+```
+QC
+Number of files / wells
+```{r}
+n_files <- nrow(idx$files_index)
+n_wells <- nrow(idx$wells_index)
+
+n_files
+n_wells
+
+```
+Missingness summary (wide table)
+```{r}
+missing_pct <- sapply(logs_wide, function(x) mean(is.na(x)) * 100)
+
+missing_summary <- tibble(
+  variable = names(missing_pct),
+  missing_percent = as.numeric(missing_pct)
+) %>%
+  arrange(desc(missing_percent))
+
+head(missing_summary, 20)
+
+```
+Export (CSV and/or Parquet)
+```{r}
+out_dir <- file.path(dir, "exports_tidylaslog")
+dir.create(out_dir, showWarnings = FALSE, recursive = TRUE)
+
+paths <- write_laslogs(
+  data    = logs_wide,
+  out_dir = out_dir,
+  prefix  = "columbiana_GR_RHOB_wide",
+  csv     = TRUE,
+  parquet = FALSE   # set TRUE if arrow is installed
+)
+
+paths
+
+```
+Example 2: One-call pipeline (index + filter + export)
+```{r}
+res <- batch_export_laslogs(
+  dir = dir,
+  out_dir = out_dir,
+  county = c("COLUMBIANA"),
+  curves_any = c("GR", "RHOB"),
+  output = "wide",
+  csv = TRUE,
+  parquet = FALSE,
+  write_index = TRUE
+)
+
+names(res)
+
+```
+
+
+Example 3: Universal entry point (tidylaslog)
+```{r}
+res2 <- tidylaslog(
+  x = dir,
+  county = c("COLUMBIANA"),
+  curves_any = c("GR"),
+  output = "wide",
+  out_dir = out_dir,
+  formats = "csv",
+  write_index = TRUE,
+  manifest = TRUE
+)
+
+names(res2)
+
+```
+

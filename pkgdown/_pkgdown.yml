@@ -1,0 +1,12 @@
+url: https://omodolor.github.io/tidylaslog/
+
+template:
+  bootstrap: 5
+
+# navbar logo
+logo: man/figures/tidylaslog_hex.gif
+
+navbar:
+  structure:
+    left:  [home, reference, articles]
+    right: [github]

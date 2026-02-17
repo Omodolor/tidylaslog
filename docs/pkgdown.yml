@@ -1,0 +1,9 @@
+pandoc: '3.4'
+pkgdown: 2.2.0
+pkgdown_sha: ~
+articles:
+  getting-started_tidylaslog: getting-started_tidylaslog.html
+last_built: 2026-02-17T06:15Z
+urls:
+  reference: https://omodolor.github.io/tidylaslog/reference
+  article: https://omodolor.github.io/tidylaslog/articles
